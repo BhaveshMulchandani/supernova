@@ -14,6 +14,7 @@ const registeruservalidation = [
     body('password').isString().withMessage('Password must be a string').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
     body('fullname.firstname').isString().withMessage('First name must be a string').notEmpty().withMessage('First name is required'),
     body('fullname.lastname').isString().withMessage('Last name must be a string').notEmpty().withMessage('Last name is required'),
+    body('role').optional().isIn(['user', 'seller']).withMessage('Role must be either user or seller'),
     respondwithvalidationerrors
 ]
 
@@ -29,4 +30,14 @@ const loginuservalidation = [
     }
 ]
 
-module.exports = { registeruservalidation, loginuservalidation };
+const useraddressvalidation = [
+    body('street').isString().withMessage('Street must be a string').notEmpty().withMessage('Street is required'),
+    body('city').isString().withMessage('City must be a string').notEmpty().withMessage('City is required'),
+    body('state').isString().withMessage('State must be a string').notEmpty().withMessage('State is required'),
+    body('zip').isString().withMessage('Zip must be a string').notEmpty().withMessage('Zip is required'),
+    body('country').isString().withMessage('Country must be a string').notEmpty().withMessage('Country is required'),
+    body('isDefault').isBoolean().withMessage('isDefault must be a boolean').optional(),
+    respondwithvalidationerrors
+]
+
+module.exports = { registeruservalidation, loginuservalidation, useraddressvalidation };
