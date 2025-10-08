@@ -28,5 +28,30 @@ const createproduct = async (req, res) => {
 
 }
 
+const getproducts = async (req,res)=>{
+    const {q,minprice,maxprice,skip=0,limit=20} = req.query;
 
-module.exports = { createproduct }
+    const filter = {}
+
+    if(q){
+        filter.$text = {$search: q}
+    }
+
+    if(minprice){
+        filter['price.amount'] = {...filter['price.amount'],$gte: Number(minprice)}
+    }
+
+    if(maxprice){
+        filter['price.amount'] = {...filter['price.amount'],$lte: Number(maxprice)}
+    }
+
+    const products = await productmodel.find(filter).skip(Number(skip)).limit(Math.min(Number(limit), 20)).sort({createdAt:-1})
+
+    return res.status(200).json({message:"Products fetched successfully",products})
+
+
+
+}
+
+
+module.exports = { createproduct, getproducts }
