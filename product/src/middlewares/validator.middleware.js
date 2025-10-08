@@ -1,13 +1,5 @@
 const {body,validationResult} = require('express-validator')
 
-const createproductvalidators = [
-    body('title').isString().trim().notEmpty().withMessage('title is required'),
-    body('primeamount').notEmpty().withMessage('priceamount is required').bail().isFloat({gt:0}).withMessage('priceamount must be a number'),
-    body('pricecurrency').optional().isIn(['USD','INR']).withMessage('pricecurrency must be USD or INR')
-
-]
-
-
 
 const handlevalidationerrors = (req,res,next) => {
     const errors = validationResult(req)
@@ -17,5 +9,12 @@ const handlevalidationerrors = (req,res,next) => {
     next()
 }
 
+const createproductvalidators = [
+    body('title').isString().trim().notEmpty().withMessage('title is required'),
+    body('description').optional().isString().withMessage('description must be a string').trim().isLength({max:200}).withMessage('description max length is 200 characters'),
+    body('priceamount').notEmpty().withMessage('priceamount is required').bail().isFloat({gt:0}).withMessage('priceamount must be a number'),
+    body('pricecurrency').optional().isIn(['USD','INR']).withMessage('pricecurrency must be USD or INR'),
+    handlevalidationerrors
+]
 
 module.exports = {createproductvalidators,handlevalidationerrors}

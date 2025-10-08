@@ -16,7 +16,7 @@ const createauthmiddleware = (roles = ["user"]) => {
                 return res.status(403).json({message:'forbidden:insufficient permissions'})
             }
 
-            const user = decoded
+             req.user = decoded
             next()
 
         } catch (error) {
