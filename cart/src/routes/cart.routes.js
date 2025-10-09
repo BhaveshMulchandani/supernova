@@ -9,6 +9,7 @@ const { create } = require('../models/cart.model');
 router.post('/items',validation.validateitemtocart,createauthmiddleware(['user']),cartcontroller.additemtocart)
 router.patch('/items/:productId',validation.validateupdatecartitem,createauthmiddleware(['user']),cartcontroller.updateitemquantity)
 router.get('/',createauthmiddleware(['user']),cartcontroller.getcart)
+router.delete('/')
 
 
 
